@@ -19,13 +19,14 @@ def batchify(all_files, max_files=20):
     yield from batchify(new_files, max_files)
 
 def bundle(match, all_files, old_matches, max_files=20):
+    print(match)
     matches = filter(all_files, match)
     if len(matches) > max_files:
         return old_matches
     if len(matches) == max_files:
         return matches
 
-    new_match = match[0:-1] + '*'
+    new_match = match.strip()[0:-1] + '*'
     nonwild = [x for x, _ in enumerate(new_match) if x != '*']
     replace = choice(nonwild)
     new_match = new_match[:replace] + '*' + new_match[replace+1:]
